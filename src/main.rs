@@ -1,11 +1,14 @@
-// Library Imports
-use clap::Parser;
-
-// Module Imports
 mod assembler;
+mod data;
+mod lexer;
+mod parser;
 
-// Namespaces
 use crate::assembler::assemble;
+use crate::data::*;
+use crate::lexer::lex;
+use crate::parser::parse;
+
+use clap::Parser;
 
 /*
  * Structure for CLI arguments
@@ -31,7 +34,4 @@ fn main() {
             panic!("COULD NOT OPEN ASM FILE:\n{}", error);
         }
     };
-
-    // Assmeble program text
-    assemble(program_text);
 }
