@@ -27,11 +27,21 @@ fn main() {
     let args = Args::parse();
 
     // Get src file content
-    let src_fetch_result = std::fs::read_to_string(&args.src);
-    let program_text = match src_fetch_result {
+    let src = std::fs::read_to_string(&args.src);
+    let program_text = match src {
         Ok(program_text) => program_text,
         Err(error) => {
             panic!("COULD NOT OPEN ASM FILE:\n{}", error);
         }
     };
+
+    // Assemble
+    let tokens: Vec<Token> = lex(&program_text);
+    let (commands, data) = parse(tokens);
+    let _: String = assemble(commands, data);
+
+    // Output to file
+    let out_file_name = args.src.file_stem().unwrap();
+    println!("{:?}", out_file_name);
+    let _ = std::path::Path::new(out_file_name);
 }
