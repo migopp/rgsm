@@ -5,13 +5,13 @@
 // with lots of inline comments
 .data
 h:
-    104
+    #104
 e:
-    101       // in data! fatal!
+    #101       // in data! fatal!
 l:
-    108
+    #108
 o:            // borat
-    111
+    #111
 
 .text
 start:

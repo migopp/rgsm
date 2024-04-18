@@ -8,17 +8,14 @@
  * immediate values ~ `#97`
  */
 
-pub struct Token {
-    token_type: TokenType,
-    data: String,
-}
-
-pub enum TokenType {
-    SECTION,
-    LABEL,
-    INSRUCTION,
-    REGISTER,
-    IMMEDIATE,
+#[derive(Debug)]
+pub enum Token {
+    Section(bool),
+    LabelDef(String),
+    LabelRef(String),
+    Instruction(String),
+    Register(u64),
+    Immediate(u64),
 }
 
 /*
@@ -30,37 +27,34 @@ pub enum TokenType {
  * `ld r0, r1`
  */
 
-pub struct Command {
-    command_type: CommandType,
-    field_1: Token,
-    field_2: Token,
-    field_3: Option<Token>,
-}
-
-pub enum CommandType {
+pub enum Command {
     // Official instructions
-    SUB,
-    ADD,
-    MUL,
-    DIV,
-    MOVL,
-    MOVH,
-    JZ,
-    JNZ,
-    JS,
-    JNS,
-    LD,
-    ST,
-    PUSH,
-    POP,
-    CALL,
-    RET,
+    Sub(u64, u64, u64),
+    Add(u64, u64, u64),
+    Mul(u64, u64, u64),
+    Div(u64, u64, u64),
+    Mod(u64, u64, u64),
+    And(u64, u64, u64),
+    Movl(u64, u64),
+    Movh(u64, u64),
+    Jz(u64, u64),
+    Jnz(u64, u64),
+    Js(u64, u64),
+    Jns(u64, u64),
+    Ld(u64, u64),
+    Ldo(u64, u64, u64),
+    St(u64, u64),
+    Sto(u64, u64, u64),
+    Call(u64),
+    Ret,
     // Psuedo-instructions
-    PRINT,
-    MOV,
-    J,
+    Push(u64),
+    Pop(u64),
+    Print(u64),
+    Mov(u64, u64),
+    J(u64),
     // End
-    END,
+    End,
 }
 
 /*
@@ -80,5 +74,5 @@ pub enum CommandType {
 
 pub struct DataValue {
     label: Token,
-    value: i16,
+    value: u64,
 }

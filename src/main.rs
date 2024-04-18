@@ -31,17 +31,20 @@ fn main() {
     let program_text = match src {
         Ok(program_text) => program_text,
         Err(error) => {
-            panic!("COULD NOT OPEN ASM FILE:\n{}", error);
+            panic!("COULD NOT OPEN ASM FILE: {}", error);
         }
     };
 
     // Assemble
     let tokens: Vec<Token> = lex(&program_text);
     let (commands, data) = parse(tokens);
-    let _: String = assemble(commands, data);
+    let hex_code: String = assemble(commands, data);
 
     // Output to file
-    let out_file_name = args.src.file_stem().unwrap();
-    println!("{:?}", out_file_name);
-    let _ = std::path::Path::new(out_file_name);
+    let out_file_name = match args.src.file_stem() {
+        Some(name) => name.to_string_lossy(),
+        None => panic!("INVALID FILE NAME"),
+    };
+    let out_file_path: &str = &format!("{}.hex", out_file_name);
+    std::fs::write(out_file_path, hex_code).expect("UNABLE TO WRITE CONTENT");
 }
