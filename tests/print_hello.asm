@@ -14,10 +14,10 @@ o:
 .text
 start:
     // move data addresses into r1-r4
-    movl r1, h
-    movl r2, e
-    movl r3, l
-    movl r4, o
+    movlb r1, h
+    movlb r2, e
+    movlb r3, l
+    movlb r4, o
 
     // load data from addresses into r1-r4
     ld r1, r1

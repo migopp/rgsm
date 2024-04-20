@@ -2,6 +2,7 @@ use crate::data::*;
 use regex::Regex;
 use std::collections::HashSet;
 
+// Tokenize program text
 pub fn lex(text_raw: &str) -> Vec<Token> {
     // Preprocess program text
     let text_clean: &str = &remove_comments(text_raw);
@@ -87,7 +88,7 @@ where
     (text[..rel_idx].to_string(), rel_idx)
 }
 
-// Wrapper functions for chomp_while for simplification
+// Chomping wrappers
 fn chomp_str(text: &str) -> (String, usize) {
     chomp_while(text, |ch| ch.is_alphanumeric() || ch == '_')
 }

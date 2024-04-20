@@ -8,7 +8,7 @@
  * immediate values ~ `#97`
  */
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum Token {
     Section(bool),
     LabelDef(String),
@@ -27,6 +27,7 @@ pub enum Token {
  * `ld r0, r1`
  */
 
+#[derive(Debug)]
 pub enum Command {
     // Official instructions
     Sub(u64, u64, u64),
@@ -42,8 +43,10 @@ pub enum Command {
     Js(u64, u64),
     Jns(u64, u64),
     Ld(u64, u64),
+    Ldr(u64, u64, u64),
     Ldo(u64, u64, u64),
     St(u64, u64),
+    Str(u64, u64, u64),
     Sto(u64, u64, u64),
     Call(u64),
     Ret,
@@ -51,28 +54,8 @@ pub enum Command {
     Push(u64),
     Pop(u64),
     Print(u64),
-    Mov(u64, u64),
+    Movlb(u64, u64),
     J(u64),
     // End
     End,
-}
-
-/*
- * DataValues are stored in the data section with an associated label
- *
- * e.g.,
- *
- * ```
- * .data
- *     my_first_immediate:
- *         0
- *     my_second_immediate:
- *         2024
- *     ...
- * ```
- */
-
-pub struct DataValue {
-    label: Token,
-    value: u64,
 }

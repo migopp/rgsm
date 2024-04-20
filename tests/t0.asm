@@ -16,8 +16,8 @@ func_0:
     movlb   r4, var_1                 // r4 = address of called function's it
     st      r1, r4                      // mem[r4] = r1 - store passed in value of it in memory
     // LC 0 
-    movl    r4, #0                 // r4 = constant 
-    movh    r4, #0                 // r4 = full 16-bit constant 
+    movl    r4, #0                // r4 = constant 
+    movh    r4, #0                // r4 = full 16-bit constant 
     push    r4                      // store constant on top of stack 
     // STORE 2 
     pop     r4                      // r4 = stack pop()
@@ -29,8 +29,8 @@ label_0:
     ld      r4, r4                  // r4 = value of var 
     push    r4                      // store value of var on top of stack 
     // LC 0 
-    movl    r4, #0                 // r4 = constant 
-    movh    r4, #0                 // r4 = full 16-bit constant 
+    movl    r4, #0                // r4 = constant 
+    movh    r4, #0                // r4 = full 16-bit constant 
     push    r4                      // store constant on top of stack 
     // Greater than 
     pop     r5              // r5 = stack pop() = op2 
@@ -40,14 +40,15 @@ label_0:
     js      r6, r4          // jump if r4 is negative (meaning less than)
     jz      r6, r4          // jump if r4 is zero (meaning equal)
     movl    r4, #1          // r4 = 1 if op1 > op2 
-    j       skip_cmp_0cmp_0:
+    j       skip_cmp_0
+cmp_0:
     movl    r4, #0          // r4 = 0 if op1 <= op2 
 skip_cmp_0:
     push    r4              // store result of comparison on top of stack 
     // JMP IF FALSE 
     pop     r4              // r4 = stack pop() 
     movlb   r5, label_1   
-    jz     r5, r4           // skip the body of the loop 
+    jz      r5, r4           // skip the body of the loop 
     // LOAD 2 
     movlb   r4, var_2             // r4 = address of var 
     ld      r4, r4                  // r4 = value of var 
@@ -70,8 +71,8 @@ skip_cmp_0:
     ld      r4, r4                  // r4 = value of var 
     push    r4                      // store value of var on top of stack 
     // LC 1 
-    movl    r4, #1                 // r4 = constant 
-    movh    r4, #0                 // r4 = full 16-bit constant 
+    movl    r4, #1                // r4 = constant 
+    movh    r4, #0                // r4 = full 16-bit constant 
     push    r4                      // store constant on top of stack 
     // SUB 
     pop     r5              // r5 = stack pop() = op2 
@@ -97,8 +98,8 @@ label_1:
     pop     r14             // restore link register
     ret                     // return 
     // LC 0 
-    movl    r4, #0                 // r4 = constant 
-    movh    r4, #0                 // r4 = full 16-bit constant 
+    movl    r4, #0                // r4 = constant 
+    movh    r4, #0                // r4 = full 16-bit constant 
     push    r4                      // store constant on top of stack 
     // RET 
     pop     r1              // r1 = return value which should be on top of stack 
@@ -125,8 +126,8 @@ main:
     ld      r4, r4                  // r4 = value of var 
     push    r4                      // store value of var on top of stack 
     // LC 2 
-    movl    r4, #160                 // r4 = constant 
-    movh    r4, #34304                 // r4 = full 16-bit constant 
+    movl    r4, #160                // r4 = constant 
+    movh    r4, #134                // r4 = full 16-bit constant 
     push    r4                      // store constant on top of stack 
     // CALL 
     pop     r1                  // r1 (parameter register) = it (new it) 
