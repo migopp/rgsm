@@ -16,7 +16,7 @@ use clap::Parser;
  * src: path to asm source
  */
 #[derive(Parser)]
-#[command(version, about)]
+#[command(version, about, long_about = None)]
 struct Args {
     src: std::path::PathBuf,
 }

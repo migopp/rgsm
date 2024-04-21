@@ -1,7 +1,158 @@
 # rgsm 🦀
 
-The (Rust) Gheith ISA Assembler.
+The Gheith ISA Assembler written in Rust.
+
+# Contents
+
+1. [Introduction](#introduction)
+2. [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+3. [Writing Assembly](#writing-assembly)
+    - [Comments](#comments)
+    - [Sections](#sections)
+    - [Label Definitions](#label-definitions)
+    - [Instructions](#instructions)
+        - [Register References](#register-references)
+        - [Immediates](#immediates)
+        - [Label References](#label-references)
+
 
 # Introduction
 
-This project is a continuation of the predecessor `gasm`. `rgsm` is a contribution for the final project of Dr. Gheith's CS 429H Computer Architecture class.
+This is a sibling of the `gasm` project.
+
+Note that `rgsm` is a contribution for the final project of Dr. Gheith's CS 429H Computer Architecture class. For students completing pipelining, it is recommended to use `gasm` and `dasm`, as they contain more pertinent features to completion of the project.
+
+`rgsm` is built and maintained as a part of the Gheith toolchain.
+
+# Getting Started
+
+`rgsm` is a simple Rust binary. When it is released on [Cargo](https://crates.io/) (the official Rust package manager), you will be able to install it with a simple command that I will put here.
+
+## Prerequisites
+
+1. Rust 2021
+
+## Installation
+
+```<coming soon>```
+
+# Writing Assembly
+
+In this section, you will learn how to write a Gheith assembly program.
+
+## Comments
+
+Comments can be placed anywhere in the assembly program with the `//` prefix. The parser will ignore the rest of the line after this token is parsed.
+
+## Sections
+
+An assembly program is split into two main "sections" -- `.text` and `.data`. In reality, a valid assembly program can have any number of these sections; however, every program is fundamentally comprised of these parts.
+
+The `.text` section is rather straightforward: it contains all instructions to execute.
+
+```
+.text
+main:
+    print #97
+    print #98
+    print #99
+    // ...
+    end
+```
+
+
+The `.data` section will contain data that will be placed in memory. The Gheith architecture is 16-bit, so each entry can represent
+one of $2^{17} - 1$ values: {$0$, $1$, ... $2^{17} - 1$}.
+
+```
+.data
+a:
+    #97
+b:
+    #98
+c:
+    #99
+// ...
+```
+
+Notice that each number is prefixed by an `#` in this example and the one above. This will be explained more later, but each number
+(and, in fact, most everything) must label itself as what it represents. In these cases, these numbers are immediate decimal values.
+
+## Label Definitions
+
+Programs are really just data stored in memory. Thus, in assembly, if we want to reference a set of instructions (or really anything in our program), we must do so by using some unique identifier (a label).
+
+```
+.text
+my_program_starts_here:
+    // ...
+```
+
+These labels are really just numbers -- locations in memory where a specific part of the program will reside. You can use them in any circumstance you would use another number like so:
+
+```
+// @0 -> Memory location word 0
+.text
+my_program_starts_here:
+    // ...
+    // This instruction jumps to the beginning of the program!
+    j my_program_starts_here
+    // ...
+```
+
+A label definition is declared like above, with a `:` token afterwards to dictate that it is a definition. A label reference will omit this colon. Labels are unique, you cannot have two labels with the same name that reference different parts of the program. For example, the following code would be invalid:
+
+```
+// @12 -> Memory location word 12
+label_1:
+    print #97 // <- label_1 references word 12
+label_1:
+    print #98 // <- label_1 references word 13 (?)
+              // hopefully it is clear why this makes no sense
+    // ...
+    // just in case it isn't clear
+    j label_1 // where should this jump to?
+              // word 12 or 13?
+```
+
+Just remember that a label really just represents the memory location of the instruction/data that is directly beneath it.
+
+## Instructions
+
+`rgsm` supports an extended Gheith ISA. The specific instructions it supports can be found in a supporting document.
+
+Here is the general form of an instruction: `[INSTRUCTION NAME] <F1> <F2> <F3>`.
+
+Instructions have up to 3 fields, whose existence and types are dictated by the ISA document. They can be one of three types: register, immediate, or label.
+
+### Register References
+
+Take the following `add` instruction as an example:
+
+```
+add r3, r4, r5
+```
+
+This operation adds the values of `r4` and `r5` and stores the result in `r3`.
+
+Register references are prefixed with the letter `r`. There are 16 registers in the Gheith architecture, `r0`-`r15`. Their designations are:
+
+| Register Num. | Designation | Notes |
+| ------------- | -------------- | -------------- |
+| 0 | Zero/Print Register | Writing `x` to this register prints `x` |
+| 1 | Return/Param Register | N/A |
+| 2 | Two Register | This register should always store the value $2$ |
+| 3-7 | Generic Caller-Saved | N/A |
+| 8-13 | Generic Callee-Saved | N/A |
+| 14 | Link Register | N/A |
+| 15 | SP Register | Initialized to 0xFFFF |
+
+## Immediates
+
+Immediates are decimal values with range depending on the instruction. They are prefixed with a `#`. That's basically all there is to it.
+
+## Label References
+
+Labels can be used any time an immediate is expected (although, it may not always semantically make sense to do so, like in the `ldo` and `sto` instructions). Labels can be referenced before or after their definitions, as they are preprocessed.
