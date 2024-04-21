@@ -523,10 +523,14 @@ pub fn parse(tokens_raw: Vec<Token>) -> (Vec<Command>, Vec<u64>) {
                             arg_tok
                         ),
                     };
+                    let is_label_jmp: bool = match arg_tok {
+                        Token::LabelRef(_) => true,
+                        _ => false,
+                    };
                     tok_idx += 1;
 
                     // `j` form command
-                    let j_cmd: Command = Command::J(arg);
+                    let j_cmd: Command = Command::J(arg, is_label_jmp);
                     commands.push(j_cmd);
                 }
                 "end" => {
@@ -553,8 +557,6 @@ pub fn parse(tokens_raw: Vec<Token>) -> (Vec<Command>, Vec<u64>) {
             other => panic!("INVALID TOKEN IN DATA SECTION: {:?}", other),
         }
     }
-
-    println!("COMMANDS:\n{:?}\n\nDATA:\n{:?}", commands, data);
 
     (commands, data)
 }

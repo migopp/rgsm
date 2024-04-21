@@ -55,7 +55,7 @@ pub enum Command {
     Pop(u64),
     Print(u64),
     Movlb(u64, u64),
-    J(u64),
+    J(u64, bool),
     // End
     End,
 }

@@ -146,3 +146,4 @@ main:
     ret                     // return 0 
     movl    r1, #0                      // indicate success
     ret                                 // return 0
+    end
