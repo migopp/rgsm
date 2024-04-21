@@ -323,6 +323,7 @@ pub fn assemble(commands: Vec<Command>, data: Vec<u64>) -> String {
 
     // Interpret data
     for data_raw in data {
+        // Check data size
         if data_raw > ((1 << 17) - 1) {
             panic!(
                 "DATA SECTION MEMBER {} TOO LARGE; MUST BE LESS THAN 2^17",
@@ -331,8 +332,12 @@ pub fn assemble(commands: Vec<Command>, data: Vec<u64>) -> String {
         }
 
         // Format in hex and append
-        let data_line: String = format!("{:x}\n", data_raw);
-        assembled_string.push_str(&data_line);
+        let data_line: String = format!("{:x}", data_raw);
+        // Extend
+        let mut padded_data: String = "0".repeat(4 - data_line.len());
+        padded_data.push_str(&data_line);
+        padded_data.push_str("\n");
+        assembled_string.push_str(&padded_data);
     }
 
     assembled_string
