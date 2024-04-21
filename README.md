@@ -64,7 +64,7 @@ main:
 
 
 The `.data` section will contain data that will be placed in memory. The Gheith architecture is 16-bit, so each entry can represent
-one of $2^{17} - 1$ values: {$0$, $1$, ... $2^{17} - 1$}.
+one of $2^{17} - 1$ values: { $0$, $1$, ... $2^{17} - 1$ }.
 
 ```
 .data
