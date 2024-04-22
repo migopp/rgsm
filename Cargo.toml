@@ -2,6 +2,12 @@
 name = "rgsm"
 version = "1.0.0"
 edition = "2021"
+authors = ["Michael Goppert goppert@cs.utexas.edu"]
+license = "MIT"
+description = "An assembler for the Gheith ISA written in Rust"
+readme = "README.md"
+homepage = "https://github.com/migopp/rgsm"
+repository = "https://github.com/migopp/rgsm"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
