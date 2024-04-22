@@ -576,7 +576,7 @@ fn reorder_tokens(tokens: Vec<Token>) -> (Vec<Token>, Vec<Token>) {
     // Separate `.text` and `.data` tokens
     let mut text_tokens: Vec<Token> = vec![Token::Section(true)];
     let mut data_tokens: Vec<Token> = vec![Token::Section(false)];
-    let mut in_text: bool = false;
+    let mut in_text: bool = true;
     for token in tokens {
         match token {
             Token::Section(is_text) => in_text = is_text,

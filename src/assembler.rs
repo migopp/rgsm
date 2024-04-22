@@ -218,6 +218,7 @@ pub fn assemble(commands: Vec<Command>, data: Vec<u64>) -> String {
                 // `ret` write
                 assembled_string.push_str(&ret_ins);
             }
+            // ||
             // \/ These are pseduo-instructions for now
             Command::Push(ra) => {
                 // Assembles to:
@@ -225,7 +226,7 @@ pub fn assemble(commands: Vec<Command>, data: Vec<u64>) -> String {
                 // st ra, r15
                 let ra_h: String = format!("{:x}", ra);
                 let sub_ins: String = "0f2f\n".to_string(); // sub
-                let st_ins: String = format!("f{}1f\n", ra_h); // st
+                let st_ins: String = format!("ff1{}\n", ra_h); // st
 
                 // `sub` and `st` write
                 assembled_string.push_str(&sub_ins);
