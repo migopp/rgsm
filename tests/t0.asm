@@ -7,6 +7,42 @@ var_3:
     #0
 
     .text
+main:
+    push    r14                         // save link register
+    push    r4                          // save callee saved register - r4
+    push    r5                          // save callee saved register - r5
+    push    r6                          // save callee saved register - r6
+    // PUSH 0 
+    movlb   r5, func_0            // r5 = address of a function 
+    push    r5                      // store address of function on top of stack 
+    // STORE 3 
+    pop     r4                      // r4 = stack pop()
+    movlb   r5, var_3             // r5 = address of var 
+    st      r4, r5                  // mem[x5] = r4 = mem[address of var] = stack pop()
+    // LOAD 3 
+    movlb   r4, var_3             // r4 = address of var 
+    ld      r4, r4                  // r4 = value of var 
+    push    r4                      // store value of var on top of stack 
+    // LC 2 
+    movl    r4, #160                // r4 = constant 
+    movh    r4, #134                // r4 = full 16-bit constant 
+    push    r4                      // store constant on top of stack 
+    // CALL 
+    movlb   r14, call_return_loc_0        // set link reg to return addr 
+    pop     r1                  // r1 (parameter register) = it (new it) 
+    pop     r7                  // r7 = address of function 
+    call    r7              // call the function in r7 
+call_return_loc_0: 
+    push    r1              // push return value onto stack 
+    // PRINT 
+    pop     r4                      // r4 = stack pop() 
+    print   r4 
+    // EXIT 
+    pop     r6              // restore r6
+    pop     r5              // restore r5
+    pop     r4              // restore r4
+    pop     r14             // restore link register
+    end                                 // halt instruction for rgsm 
 
 func_0:
     push    r14                         // save link register
@@ -108,42 +144,3 @@ label_1:
     pop     r4              // restore r4
     pop     r14             // restore link register
     ret                     // return 
-
-main:
-    push    r14                         // save link register
-    push    r4                          // save callee saved register - r4
-    push    r5                          // save callee saved register - r5
-    push    r6                          // save callee saved register - r6
-    // PUSH 0 
-    movlb   r5, func_0            // r5 = address of a function 
-    push    r5                      // store address of function on top of stack 
-    // STORE 3 
-    pop     r4                      // r4 = stack pop()
-    movlb   r5, var_3             // r5 = address of var 
-    st      r4, r5                  // mem[x5] = r4 = mem[address of var] = stack pop()
-    // LOAD 3 
-    movlb   r4, var_3             // r4 = address of var 
-    ld      r4, r4                  // r4 = value of var 
-    push    r4                      // store value of var on top of stack 
-    // LC 2 
-    movl    r4, #160                // r4 = constant 
-    movh    r4, #134                // r4 = full 16-bit constant 
-    push    r4                      // store constant on top of stack 
-    // CALL 
-    pop     r1                  // r1 (parameter register) = it (new it) 
-    pop     r7                  // r7 = address of function 
-    call    r7              // call the function in r7 
-    push    r1              // push return value onto stack 
-    // PRINT 
-    pop     r4                      // r4 = stack pop() 
-    print   r4 
-    // EXIT 
-    pop     r6              // restore r6
-    pop     r5              // restore r5
-    pop     r4              // restore r4
-    pop     r14             // restore link register
-    movl    r1, #0          // indicate success 
-    ret                     // return 0 
-    movl    r1, #0                      // indicate success
-    ret                                 // return 0
-    end
