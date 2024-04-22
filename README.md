@@ -1,6 +1,6 @@
 # rgsm 🦀
 
-The Gheith ISA Assembler written in Rust.
+An assembler for the Gheith ISA written in Rust.
 
 # Contents
 
