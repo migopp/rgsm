@@ -16,6 +16,7 @@ The Gheith ISA Assembler written in Rust.
         - [Register References](#register-references)
         - [Immediates](#immediates)
         - [Label References](#label-references)
+    - [Entry Point](#entry-point)
 
 
 # Introduction
@@ -61,7 +62,6 @@ main:
     // ...
     end
 ```
-
 
 The `.data` section will contain data that will be placed in memory. The Gheith architecture is 16-bit, so each entry can represent
 one of $2^{17} - 1$ values: { $0$, $1$, ... $2^{17} - 1$ }.
@@ -149,10 +149,38 @@ Register references are prefixed with the letter `r`. There are 16 registers in 
 | 14 | Link Register | N/A |
 | 15 | SP Register | Initialized to 0xFFFF |
 
-## Immediates
+### Immediates
 
 Immediates are decimal values with range depending on the instruction. They are prefixed with a `#`. That's basically all there is to it.
 
-## Label References
+### Label References
 
 Labels can be used any time an immediate is expected (although, it may not always semantically make sense to do so, like in the `ldo` and `sto` instructions). Labels can be referenced before or after their definitions, as they are preprocessed.
+
+## Entry Point
+
+The Gheith architecture follows Von Neumann architecture principles of text sharing address space with data. The way that `rgsm` organizes programs adheres to this.
+
+The program text is placed at memory address 0, the entry point is the first instruction in the first `.text` section -- this is the instruction that will be placed at address 0. If you look at the assembled output, you will see:
+
+```
+@0
+// first instruction
+// ... and so on ...
+```
+
+The `@0` dictates that the following block is sequentially ordered starting at address 0.
+
+The `.text` sections are fused and placed first in memory, then the `.data` sections are fused and placed last. Thus, the resulting machine code will be of the form:
+
+```
+@0
+// first instruction
+// second instruction
+// ...
+// end of `.text`
+// first data entry
+// second data entry
+// ...
+// end of `.data`
+```
