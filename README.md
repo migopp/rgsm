@@ -6,8 +6,8 @@ An assembler for the Gheith ISA written in Rust.
 
 1. [Introduction](#introduction)
 2. [Getting Started](#getting-started)
-    - [Prerequisites](#prerequisites)
     - [Installation](#installation)
+    - [Prerequisites](#prerequisites)
 3. [Writing Assembly](#writing-assembly)
     - [Comments](#comments)
     - [Sections](#sections)
@@ -16,7 +16,9 @@ An assembler for the Gheith ISA written in Rust.
         - [Register References](#register-references)
         - [Immediates](#immediates)
         - [Label References](#label-references)
+    - [Pseudo-Instructions](#pseudo-instructions)
     - [Entry Point](#entry-point)
+    - [Skeleton](#skeleton)
 
 
 # Introduction
@@ -29,15 +31,17 @@ Note that `rgsm` is a contribution for the final project of Dr. Gheith's CS 429H
 
 # Getting Started
 
-`rgsm` is a simple Rust binary. When it is released on [Cargo](https://crates.io/) (the official Rust package manager), you will be able to install it with a simple command that I will put here.
+`rgsm` is a simple Rust binary. It is released on [Cargo](https://crates.io/) (the official Rust package manager), so install it with the command below:
+
+## Installation
+
+```
+cargo install rgsm
+```
 
 ## Prerequisites
 
 1. Rust 2021
-
-## Installation
-
-```<coming soon>```
 
 # Writing Assembly
 
@@ -123,7 +127,7 @@ Just remember that a label really just represents the memory location of the ins
 
 `rgsm` supports an extended Gheith ISA. The specific instructions it supports can be found in a supporting document.
 
-Here is the general form of an instruction: `[INSTRUCTION NAME] <F1> <F2> <F3>`.
+Here is the general form of an instruction: `<INSTRUCTION NAME> [F1] [F2] [F3]`.
 
 Instructions have up to 3 fields, whose existence and types are dictated by the ISA document. They can be one of three types: register, immediate, or label.
 
@@ -157,6 +161,18 @@ Immediates are decimal values with range depending on the instruction. They are 
 
 Labels can be used any time an immediate is expected (although, it may not always semantically make sense to do so, like in the `ldo` and `sto` instructions). Labels can be referenced before or after their definitions, as they are preprocessed.
 
+## Pseudo-Instructions
+
+Along with the officially-supported extended Gheith ISA instructions, `rgsm` also supports a number of "pseudo-instructions", or more human-readable instructions that assemble to simple Gheith instructions. They are listed below:
+
+| Instruction Name | Field(s) | Functionality |
+| ------------- | -------------- | -------------- |
+| `print` | <ra: Register> | `add r0, ra, r0` |
+| `movlb` | <rt: Register>, <label: Label> | `movl ra, label[7:0]`, `movh ra, label[15:8]` |
+| `j` | <rt: Register> | `jz rt, r0` |
+| `j` | <label: Label> | `movl r7, label[7:0]`, `movh r7, label[15:8]`, `jz r7, r0` |
+
+
 ## Entry Point
 
 The Gheith architecture follows Von Neumann architecture principles of text sharing address space with data. The way that `rgsm` organizes programs adheres to this.
@@ -183,4 +199,17 @@ The `.text` sections are fused and placed first in memory, then the `.data` sect
 // second data entry
 // ...
 // end of `.data`
+```
+
+## Skeleton
+
+The skeleton of a valid assembly program is:
+
+```
+.data
+    // Place your relevant data here!
+
+.text
+    // Place your instructions here!
+    end
 ```
