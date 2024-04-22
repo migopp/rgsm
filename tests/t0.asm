@@ -28,11 +28,11 @@ main:
     movh    r4, #134                // r4 = full 16-bit constant 
     push    r4                      // store constant on top of stack 
     // CALL 
-    movlb   r14, call_return_loc_0        // set link reg to return addr 
+    movlb   r14, location_for_rtrn_0        // set link reg to return addr 
     pop     r1                  // r1 (parameter register) = it (new it) 
     pop     r7                  // r7 = address of function 
     call    r7              // call the function in r7 
-call_return_loc_0: 
+location_for_rtrn_0: 
     push    r1              // push return value onto stack 
     // PRINT 
     pop     r4                      // r4 = stack pop() 
