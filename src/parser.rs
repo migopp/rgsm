@@ -596,18 +596,30 @@ fn reorder_tokens(tokens: Vec<Token>) -> (Vec<Token>, Vec<Token>) {
 
 // Turn label definitions -> usable memory addresses
 fn resolve_labels(text_tokens: &Vec<Token>, data_tokens: &Vec<Token>) -> HashMap<String, u64> {
-    let mut ins_count: u64 = 0;
+    let mut addr_count: u64 = 0;
     let mut label_refs: HashMap<String, u64> = HashMap::new();
 
     // `.text`
-    for token in text_tokens {
+    for (token_idx, token) in text_tokens.iter().enumerate() {
         match token {
             Token::LabelDef(name) => {
                 // Effective address and insert into map
-                let addr: u64 = 2 * ins_count;
+                let addr: u64 = 2 * addr_count;
                 label_refs.insert(name.clone(), addr);
             }
-            Token::Instruction(_) => ins_count += 1,
+            Token::Instruction(ins) => match ins.as_str() {
+                "push" | "pop" => addr_count += 2,
+                "movlb" => addr_count += 2,
+                "j" => {
+                    let next: &Token = &text_tokens[token_idx + 1];
+                    match next {
+                        Token::LabelRef(_) => addr_count += 3,
+                        Token::Register(_) => addr_count += 1,
+                        _ => panic!("LABEL RESOLUTION FAILURE: UNCLEAR J PSEUDO"),
+                    }
+                }
+                _ => addr_count += 1,
+            },
             _ => {}
         }
     }
@@ -617,10 +629,10 @@ fn resolve_labels(text_tokens: &Vec<Token>, data_tokens: &Vec<Token>) -> HashMap
         match token {
             Token::LabelDef(name) => {
                 // Effective address and insert into map
-                let addr: u64 = 2 * ins_count;
+                let addr: u64 = 2 * addr_count;
                 label_refs.insert(name.clone(), addr);
             }
-            Token::Immediate(_) => ins_count += 1,
+            Token::Immediate(_) => addr_count += 1,
             _ => {}
         }
     }
