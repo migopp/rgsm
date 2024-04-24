@@ -50,6 +50,9 @@ pub enum Command {
     Sto(u64, u64, u64),
     Call(u64),
     Ret,
+    Led(u64, bool),
+    Leds(u64),
+    Rdsw(u64),
     // Psuedo-instructions
     Push(u64),
     Pop(u64),

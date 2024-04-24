@@ -218,6 +218,35 @@ pub fn assemble(commands: Vec<Command>, data: Vec<u64>) -> String {
                 // `ret` write
                 assembled_string.push_str(&ret_ins);
             }
+            Command::Led(ra, turn_on) => {
+                // `led` form
+                let ra_h: String = format!("{:x}", ra);
+                let turn_on_h: String;
+                match turn_on {
+                    true => turn_on_h = "a".to_string(),
+                    false => turn_on_h = "b".to_string(),
+                }
+                let led_ins: String = format!("f{}{}0", ra_h, turn_on_h);
+
+                // `led` write
+                assembled_string.push_str(&led_ins);
+            }
+            Command::Leds(ra) => {
+                // `leds` form
+                let ra_h: String = format!("{:x}", ra);
+                let leds_ins: String = format!("f{}c0", ra_h);
+
+                // `leds` write
+                assembled_string.push_str(&leds_ins);
+            }
+            Command::Rdsw(rt) => {
+                // `rdsw` form
+                let rt_h: String = format!("{:x}", rt);
+                let rdsw_ins: String = format!("f0d{}", rt_h);
+
+                // `rdsw` write
+                assembled_string.push_str(&rdsw_ins);
+            }
             // ||
             // \/ These are pseduo-instructions for now
             Command::Push(ra) => {

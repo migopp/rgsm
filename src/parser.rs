@@ -440,6 +440,62 @@ pub fn parse(tokens_raw: Vec<Token>) -> (Vec<Command>, Vec<u64>) {
                     let ret_cmd: Command = Command::Ret;
                     commands.push(ret_cmd);
                 }
+                "led" => {
+                    // `led` get args
+                    let ra_tok: &Token = &text_tokens[tok_idx + 1];
+                    let ra: u64 = match ra_tok {
+                        Token::Register(ra_value) => *ra_value,
+                        _ => panic!(
+                            "INVALID ARGUMENT FOR `LED` (EXPECTED REGISTER): {:?}",
+                            ra_tok
+                        ),
+                    };
+                    let imm_tok: &Token = &text_tokens[tok_idx + 2];
+                    let imm: u64 = match imm_tok {
+                        Token::Immediate(imm_value) => *imm_value,
+                        _ => panic!(
+                            "INVALID ARGUMENT FOR `LED` (EXPECTED IMMEDIATE): {:?}",
+                            imm_tok
+                        ),
+                    };
+                    tok_idx += 2;
+
+                    // `led` form command
+                    let led_cmd: Command = Command::Led(ra, imm != 0);
+                    commands.push(led_cmd);
+                }
+                "leds" => {
+                    // `leds` get args
+                    let ra_tok: &Token = &text_tokens[tok_idx + 1];
+                    let ra: u64 = match ra_tok {
+                        Token::Register(ra_value) => *ra_value,
+                        _ => panic!(
+                            "INVALID ARGUMENT FOR `LEDS` (EXPECTED REGISTER): {:?}",
+                            ra_tok
+                        ),
+                    };
+                    tok_idx += 1;
+
+                    // `leds` form command
+                    let leds_cmd: Command = Command::Leds(ra);
+                    commands.push(leds_cmd);
+                }
+                "rdsw" => {
+                    // `rdsw` get args
+                    let rt_tok: &Token = &text_tokens[tok_idx + 1];
+                    let rt: u64 = match rt_tok {
+                        Token::Register(rt_value) => *rt_value,
+                        _ => panic!(
+                            "INVALID ARGUMENT FOR `RDSW` (EXPECTED REGISTER): {:?}",
+                            rt_tok
+                        ),
+                    };
+                    tok_idx += 1;
+
+                    // `rdsw` form command
+                    let rdsw_cmd: Command = Command::Rdsw(rt);
+                    commands.push(rdsw_cmd);
+                }
                 "push" => {
                     // `push` get arg
                     let ra_tok: &Token = &text_tokens[tok_idx + 1];
