@@ -1,11 +1,11 @@
-   .data
+    .data
+var_0:
+    #0
 var_1:
     #0
 var_2:
     #0
 var_3:
-    #0
-var_4:
     #0
 
     .text
@@ -17,21 +17,21 @@ main:
     // PUSH 0 
     movlb   r5, func_0            // r5 = address of a function 
     push    r5                      // store address of function on top of stack 
-    // STORE 2 
+    // STORE 1 
     pop     r4                      // r4 = stack pop()
-    movlb   r5, var_2             // r5 = address of var 
+    movlb   r5, var_1             // r5 = address of var 
     st      r4, r5                  // mem[x5] = r4 = mem[address of var] = stack pop()
     // LC 168 
     movl    r4, #0                // r4 = constant 
     movh    r4, #225                // r4 = full 16-bit constant 
     push    r4                      // store constant on top of stack 
-    // STORE 3 
+    // STORE 2 
     pop     r4                      // r4 = stack pop()
-    movlb   r5, var_3             // r5 = address of var 
+    movlb   r5, var_2             // r5 = address of var 
     st      r4, r5                  // mem[x5] = r4 = mem[address of var] = stack pop()
 label_0:
-    // LOAD 3 
-    movlb   r4, var_3             // r4 = address of var 
+    // LOAD 2 
+    movlb   r4, var_2             // r4 = address of var 
     ld      r4, r4                  // r4 = value of var 
     push    r4                      // store value of var on top of stack 
     // LC 1 
@@ -54,8 +54,8 @@ skip_cmp_0:
     pop     r4              // r4 = stack pop() 
     movlb   r5, label_1   
     jz      r5, r4           // skip the body of the loop 
-    // LOAD 2 
-    movlb   r4, var_2             // r4 = address of var 
+    // LOAD 1 
+    movlb   r4, var_1             // r4 = address of var 
     ld      r4, r4                  // r4 = value of var 
     push    r4                      // store value of var on top of stack 
     // LC 1 
@@ -63,18 +63,18 @@ skip_cmp_0:
     movh    r4, #0                // r4 = full 16-bit constant 
     push    r4                      // store constant on top of stack 
     // CALL 
-    movlb   r14, call_return_loc_1        // set link reg to return addr 
+    movlb   r14, location_for_rtrn_1        // set link reg to return addr 
     pop     r1                  // r1 (parameter register) = it (new it) 
     pop     r7                  // r7 = address of function 
     call    r7              // call the function in r7 
-call_return_loc_1: 
+location_for_rtrn_1: 
     push    r1              // push return value onto stack 
-    // STORE 4 
+    // STORE 3 
     pop     r4                      // r4 = stack pop()
-    movlb   r5, var_4             // r5 = address of var 
+    movlb   r5, var_3             // r5 = address of var 
     st      r4, r5                  // mem[x5] = r4 = mem[address of var] = stack pop()
-    // LOAD 3 
-    movlb   r4, var_3             // r4 = address of var 
+    // LOAD 2 
+    movlb   r4, var_2             // r4 = address of var 
     ld      r4, r4                  // r4 = value of var 
     push    r4                      // store value of var on top of stack 
     // LC 2 
@@ -86,15 +86,15 @@ call_return_loc_1:
     pop     r4              // r4 = stack pop() = op1 
     sub     r4, r4, r5      // r4 = op1 - op2 
     push    r4              // store sum on top of stack 
-    // STORE 3 
+    // STORE 2 
     pop     r4                      // r4 = stack pop()
-    movlb   r5, var_3             // r5 = address of var 
+    movlb   r5, var_2             // r5 = address of var 
     st      r4, r5                  // mem[x5] = r4 = mem[address of var] = stack pop()
     // JMP 
     j label_0
 label_1:
-    // LOAD 2 
-    movlb   r4, var_2             // r4 = address of var 
+    // LOAD 1 
+    movlb   r4, var_1             // r4 = address of var 
     ld      r4, r4                  // r4 = value of var 
     push    r4                      // store value of var on top of stack 
     // LC 1 
@@ -102,11 +102,11 @@ label_1:
     movh    r4, #0                // r4 = full 16-bit constant 
     push    r4                      // store constant on top of stack 
     // CALL 
-    movlb   r14, call_return_loc_3        // set link reg to return addr 
+    movlb   r14, location_for_rtrn_3        // set link reg to return addr 
     pop     r1                  // r1 (parameter register) = it (new it) 
     pop     r7                  // r7 = address of function 
     call    r7              // call the function in r7 
-call_return_loc_3: 
+location_for_rtrn_3: 
     push    r1              // push return value onto stack 
     // PRINT 
     pop     r4                      // r4 = stack pop() 
@@ -123,7 +123,7 @@ func_0:
     push    r4                          // save callee saved register - r4
     push    r5                          // save callee saved register - r5
     push    r6                          // save callee saved register - r6
-    movlb   r4, var_1                 // r4 = address of called function's it
+    movlb   r4, var_0                 // r4 = address of called function's it
     st      r1, r4                      // mem[r4] = r1 - store passed in value of it in memory
     // LC 0 
     movl    r4, #234                // r4 = constant 
@@ -300,3 +300,4 @@ func_0:
     pop     r4              // restore r4
     pop     r14             // restore link register
     ret                     // return 
+

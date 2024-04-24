@@ -1,4 +1,6 @@
     .data
+var_0:
+    #0
 var_1:
     #0
 var_2:
@@ -19,8 +21,6 @@ var_9:
     #0
 var_10:
     #0
-var_11:
-    #0
 
     .text
 main:
@@ -28,10 +28,19 @@ main:
     push    r4                          // save callee saved register - r4
     push    r5                          // save callee saved register - r5
     push    r6                          // save callee saved register - r6
+    // LOAD 0 
+    movlb   r4, var_0             // r4 = address of var 
+    ld      r4, r4                  // r4 = value of var 
+    push    r4                      // store value of var on top of stack 
     // LOAD 1 
     movlb   r4, var_1             // r4 = address of var 
     ld      r4, r4                  // r4 = value of var 
     push    r4                      // store value of var on top of stack 
+    // SUB 
+    pop     r5              // r5 = stack pop() = op2 
+    pop     r4              // r4 = stack pop() = op1 
+    sub     r4, r4, r5      // r4 = op1 - op2 
+    push    r4              // store sum on top of stack 
     // LOAD 2 
     movlb   r4, var_2             // r4 = address of var 
     ld      r4, r4                  // r4 = value of var 
@@ -41,18 +50,9 @@ main:
     pop     r4              // r4 = stack pop() = op1 
     sub     r4, r4, r5      // r4 = op1 - op2 
     push    r4              // store sum on top of stack 
-    // LOAD 3 
-    movlb   r4, var_3             // r4 = address of var 
-    ld      r4, r4                  // r4 = value of var 
-    push    r4                      // store value of var on top of stack 
-    // SUB 
-    pop     r5              // r5 = stack pop() = op2 
-    pop     r4              // r4 = stack pop() = op1 
-    sub     r4, r4, r5      // r4 = op1 - op2 
-    push    r4              // store sum on top of stack 
-    // STORE 4 
+    // STORE 3 
     pop     r4                      // r4 = stack pop()
-    movlb   r5, var_4             // r5 = address of var 
+    movlb   r5, var_3             // r5 = address of var 
     st      r4, r5                  // mem[x5] = r4 = mem[address of var] = stack pop()
     // LC 0 
     movl    r4, #3                // r4 = constant 
@@ -102,12 +102,12 @@ main:
     // PRINT 
     pop     r4                      // r4 = stack pop() 
     print   r4 
-    // LOAD 5 
-    movlb   r4, var_5             // r4 = address of var 
+    // LOAD 4 
+    movlb   r4, var_4             // r4 = address of var 
     ld      r4, r4                  // r4 = value of var 
     push    r4                      // store value of var on top of stack 
-    // LOAD 6 
-    movlb   r4, var_6             // r4 = address of var 
+    // LOAD 5 
+    movlb   r4, var_5             // r4 = address of var 
     ld      r4, r4                  // r4 = value of var 
     push    r4                      // store value of var on top of stack 
     // SUB 
@@ -115,9 +115,9 @@ main:
     pop     r4              // r4 = stack pop() = op1 
     sub     r4, r4, r5      // r4 = op1 - op2 
     push    r4              // store sum on top of stack 
-    // STORE 4 
+    // STORE 3 
     pop     r4                      // r4 = stack pop()
-    movlb   r5, var_4             // r5 = address of var 
+    movlb   r5, var_3             // r5 = address of var 
     st      r4, r5                  // mem[x5] = r4 = mem[address of var] = stack pop()
     // LC 8 
     movl    r4, #16                // r4 = constant 
@@ -142,12 +142,12 @@ main:
     // PRINT 
     pop     r4                      // r4 = stack pop() 
     print   r4 
-    // LOAD 7 
-    movlb   r4, var_7             // r4 = address of var 
+    // LOAD 6 
+    movlb   r4, var_6             // r4 = address of var 
     ld      r4, r4                  // r4 = value of var 
     push    r4                      // store value of var on top of stack 
-    // LOAD 8 
-    movlb   r4, var_8             // r4 = address of var 
+    // LOAD 7 
+    movlb   r4, var_7             // r4 = address of var 
     ld      r4, r4                  // r4 = value of var 
     push    r4                      // store value of var on top of stack 
     // SUB 
@@ -155,9 +155,9 @@ main:
     pop     r4              // r4 = stack pop() = op1 
     sub     r4, r4, r5      // r4 = op1 - op2 
     push    r4              // store sum on top of stack 
-    // STORE 4 
+    // STORE 3 
     pop     r4                      // r4 = stack pop()
-    movlb   r5, var_4             // r5 = address of var 
+    movlb   r5, var_3             // r5 = address of var 
     st      r4, r5                  // mem[x5] = r4 = mem[address of var] = stack pop()
     // LC 0 
     movl    r4, #3                // r4 = constant 
@@ -534,12 +534,12 @@ skip_cmp_13:
     // PRINT 
     pop     r4                      // r4 = stack pop() 
     print   r4 
-    // LOAD 9 
-    movlb   r4, var_9             // r4 = address of var 
-    ld      r4, r4                  // r4 = value of var 
-    push    r4                      // store value of var on top of stack 
     // LOAD 8 
     movlb   r4, var_8             // r4 = address of var 
+    ld      r4, r4                  // r4 = value of var 
+    push    r4                      // store value of var on top of stack 
+    // LOAD 7 
+    movlb   r4, var_7             // r4 = address of var 
     ld      r4, r4                  // r4 = value of var 
     push    r4                      // store value of var on top of stack 
     // SUB 
@@ -547,9 +547,9 @@ skip_cmp_13:
     pop     r4              // r4 = stack pop() = op1 
     sub     r4, r4, r5      // r4 = op1 - op2 
     push    r4              // store sum on top of stack 
-    // STORE 4 
+    // STORE 3 
     pop     r4                      // r4 = stack pop()
-    movlb   r5, var_4             // r5 = address of var 
+    movlb   r5, var_3             // r5 = address of var 
     st      r4, r5                  // mem[x5] = r4 = mem[address of var] = stack pop()
     // LC 3 
     movl    r4, #2                // r4 = constant 
@@ -895,12 +895,12 @@ label_7:
     // PRINT 
     pop     r4                      // r4 = stack pop() 
     print   r4 
-    // LOAD 10 
-    movlb   r4, var_10             // r4 = address of var 
+    // LOAD 9 
+    movlb   r4, var_9             // r4 = address of var 
     ld      r4, r4                  // r4 = value of var 
     push    r4                      // store value of var on top of stack 
-    // LOAD 11 
-    movlb   r4, var_11             // r4 = address of var 
+    // LOAD 10 
+    movlb   r4, var_10             // r4 = address of var 
     ld      r4, r4                  // r4 = value of var 
     push    r4                      // store value of var on top of stack 
     // SUB 
@@ -908,9 +908,9 @@ label_7:
     pop     r4              // r4 = stack pop() = op1 
     sub     r4, r4, r5      // r4 = op1 - op2 
     push    r4              // store sum on top of stack 
-    // STORE 4 
+    // STORE 3 
     pop     r4                      // r4 = stack pop()
-    movlb   r5, var_4             // r5 = address of var 
+    movlb   r5, var_3             // r5 = address of var 
     st      r4, r5                  // mem[x5] = r4 = mem[address of var] = stack pop()
     // LC 0 
     movl    r4, #3                // r4 = constant 
@@ -956,3 +956,4 @@ label_7:
     pop     r4              // restore r4
     pop     r14             // restore link register
     end                                 // halt instruction for rgsm 
+
