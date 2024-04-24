@@ -147,9 +147,10 @@ Register references are prefixed with the letter `r`. There are 16 registers in 
 | ------------- | -------------- | -------------- |
 | 0 | Zero/Print Register | Writing `x` to this register prints `x` |
 | 1 | Return/Param Register | N/A |
-| 2 | Two Register | This register should always store the value $2$ |
-| 3-7 | Generic Caller-Saved | N/A |
-| 8-13 | Generic Callee-Saved | N/A |
+| 2 | Two Register | This register stores the value $2$ |
+| 7 | Jump Location Register | Overwritten by jumps to labels |
+| 1-7 | Generic Caller-Saved | N/A |
+| 8-15 | Generic Callee-Saved | N/A |
 | 14 | Link Register | N/A |
 | 15 | SP Register | Initialized to 0xFFFF |
 
