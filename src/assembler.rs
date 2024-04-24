@@ -226,7 +226,7 @@ pub fn assemble(commands: Vec<Command>, data: Vec<u64>) -> String {
                     true => turn_on_h = "a".to_string(),
                     false => turn_on_h = "b".to_string(),
                 }
-                let led_ins: String = format!("f{}{}0", ra_h, turn_on_h);
+                let led_ins: String = format!("f{}{}0\n", ra_h, turn_on_h);
 
                 // `led` write
                 assembled_string.push_str(&led_ins);
@@ -234,7 +234,7 @@ pub fn assemble(commands: Vec<Command>, data: Vec<u64>) -> String {
             Command::Leds(ra) => {
                 // `leds` form
                 let ra_h: String = format!("{:x}", ra);
-                let leds_ins: String = format!("f{}c0", ra_h);
+                let leds_ins: String = format!("f{}c0\n", ra_h);
 
                 // `leds` write
                 assembled_string.push_str(&leds_ins);
@@ -242,7 +242,7 @@ pub fn assemble(commands: Vec<Command>, data: Vec<u64>) -> String {
             Command::Rdsw(rt) => {
                 // `rdsw` form
                 let rt_h: String = format!("{:x}", rt);
-                let rdsw_ins: String = format!("f0d{}", rt_h);
+                let rdsw_ins: String = format!("f0d{}\n", rt_h);
 
                 // `rdsw` write
                 assembled_string.push_str(&rdsw_ins);
@@ -250,7 +250,7 @@ pub fn assemble(commands: Vec<Command>, data: Vec<u64>) -> String {
             Command::Push(ra) => {
                 // `push` form
                 let ra_h: String = format!("{:x}", ra);
-                let push_ins: String = format!("f{}20", ra_h);
+                let push_ins: String = format!("f{}20\n", ra_h);
 
                 // `push` write
                 assembled_string.push_str(&push_ins);
@@ -258,10 +258,18 @@ pub fn assemble(commands: Vec<Command>, data: Vec<u64>) -> String {
             Command::Pop(rt) => {
                 // `pop` form
                 let rt_h: String = format!("{:x}", rt);
-                let pop_ins: String = format!("f03{}", rt_h);
+                let pop_ins: String = format!("f03{}\n", rt_h);
 
                 // `pop` write
                 assembled_string.push_str(&pop_ins);
+            }
+            Command::Wait(ra) => {
+                // `wait` form
+                let ra_h: String = format!("{:x}", ra);
+                let wait_ins: String = format!("f{}e0\n", ra_h);
+
+                // `wait` write
+                assembled_string.push_str(&wait_ins);
             }
             // ||
             // \/ These are pseduo-instructions for now

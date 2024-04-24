@@ -528,6 +528,22 @@ pub fn parse(tokens_raw: Vec<Token>) -> (Vec<Command>, Vec<u64>) {
                     let pop_cmd: Command = Command::Pop(rt);
                     commands.push(pop_cmd);
                 }
+                "wait" => {
+                    // `wait` get arg
+                    let ra_tok: &Token = &text_tokens[tok_idx + 1];
+                    let ra: u64 = match ra_tok {
+                        Token::Register(ra_value) => *ra_value,
+                        _ => panic!(
+                            "INVALID ARGUMENT FOR `WAIT` (EXPECTED REGISTER): {:?}",
+                            ra_tok
+                        ),
+                    };
+                    tok_idx += 1;
+
+                    // `wait` form command
+                    let wait_cmd: Command = Command::Wait(ra);
+                    commands.push(wait_cmd);
+                }
                 "print" => {
                     // `print` get arg
                     let ra_tok: &Token = &text_tokens[tok_idx + 1];

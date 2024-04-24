@@ -55,6 +55,7 @@ pub enum Command {
     Rdsw(u64),
     Push(u64),
     Pop(u64),
+    Wait(u64),
     // Psuedo-instructions
     Print(u64),
     Movlb(u64, u64),
