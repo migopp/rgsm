@@ -128,7 +128,6 @@ skip_cmp_0:
     sub     r4, r4, r5      // r4 = op1 - op2 
     push    r4              // store sum on top of stack 
     // CALL 
-    movlb   r14, location_for_rtrn_1        // set link reg to return addr 
     movlb   r4, var_1              // r4 = address of current it 
     ld      r4, r4                  // r4 = value of current it 
     pop     r1                  // r1 (parameter register) = it (new it) 
@@ -141,7 +140,7 @@ skip_cmp_0:
     pop     r5              // restore r5
     pop     r4              // restore r4
     pop     r14             // restore link register
-    jr      r7              // call the function in r7 without linking 
+    j       r7              // call the function in r7 without linking 
     // JMP 
     j label_0
 label_1:

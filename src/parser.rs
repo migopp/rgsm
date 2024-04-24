@@ -680,7 +680,6 @@ fn resolve_labels(text_tokens: &Vec<Token>, data_tokens: &Vec<Token>) -> HashMap
                 label_refs.insert(name.clone(), addr);
             }
             Token::Instruction(ins) => match ins.as_str() {
-                "push" | "pop" => addr_count += 2,
                 "movlb" => addr_count += 2,
                 "j" => {
                     let next: &Token = &text_tokens[token_idx + 1];
