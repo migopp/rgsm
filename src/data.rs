@@ -53,9 +53,9 @@ pub enum Command {
     Led(u64, bool),
     Leds(u64),
     Rdsw(u64),
-    // Psuedo-instructions
     Push(u64),
     Pop(u64),
+    // Psuedo-instructions
     Print(u64),
     Movlb(u64, u64),
     J(u64, bool),

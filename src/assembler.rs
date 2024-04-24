@@ -247,32 +247,24 @@ pub fn assemble(commands: Vec<Command>, data: Vec<u64>) -> String {
                 // `rdsw` write
                 assembled_string.push_str(&rdsw_ins);
             }
-            // ||
-            // \/ These are pseduo-instructions for now
             Command::Push(ra) => {
-                // Assembles to:
-                // sub r15, r15, r2
-                // st ra, r15
+                // `push` form
                 let ra_h: String = format!("{:x}", ra);
-                let sub_ins: String = "0f2f\n".to_string(); // sub
-                let st_ins: String = format!("ff1{}\n", ra_h); // st
+                let push_ins: String = format!("f{}20", ra_h);
 
-                // `sub` and `st` write
-                assembled_string.push_str(&sub_ins);
-                assembled_string.push_str(&st_ins);
+                // `push` write
+                assembled_string.push_str(&push_ins);
             }
             Command::Pop(rt) => {
-                // Assembles to:
-                // ld rt, r15
-                // add r15, r15, r2
+                // `pop` form
                 let rt_h: String = format!("{:x}", rt);
-                let ld_ins: String = format!("ff0{}\n", rt_h); // ld
-                let add_ins: String = "1f2f\n".to_string(); // add
+                let pop_ins: String = format!("f03{}", rt_h);
 
-                // `ld` and `add` write
-                assembled_string.push_str(&ld_ins);
-                assembled_string.push_str(&add_ins);
+                // `pop` write
+                assembled_string.push_str(&pop_ins);
             }
+            // ||
+            // \/ These are pseduo-instructions for now
             Command::Print(ra) => {
                 // Assembles to:
                 // add r0, ra, r0
