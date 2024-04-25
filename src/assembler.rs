@@ -223,8 +223,8 @@ pub fn assemble(commands: Vec<Command>, data: Vec<u64>) -> String {
                 let ra_h: String = format!("{:x}", ra);
                 let turn_on_h: String;
                 match turn_on {
-                    true => turn_on_h = "a".to_string(),
-                    false => turn_on_h = "b".to_string(),
+                    false => turn_on_h = "a".to_string(),
+                    true => turn_on_h = "b".to_string(),
                 }
                 let led_ins: String = format!("f{}{}0\n", ra_h, turn_on_h);
 
