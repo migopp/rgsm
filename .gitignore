@@ -1,4 +1,5 @@
 /target
+/tests
+/hex
 rgsm-run.sh
 dsm.py
-cs429_p4_compiler/
